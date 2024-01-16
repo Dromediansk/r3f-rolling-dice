@@ -1,25 +1,24 @@
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import "./App.css";
 import Environment from "./components/Environment";
 import Dice from "./components/Dice";
+import { Physics } from "@react-three/rapier";
+import { Suspense } from "react";
+import Camera from "./components/Camera";
 
 const App = () => {
   return (
-    <Canvas>
-      <PerspectiveCamera
-        makeDefault
-        position={[-20, 30, 100]}
-        near={0.1}
-        far={600}
-        fov={35}
-      />
-      <OrbitControls enableDamping />
-
-      <Environment />
-
-      <Dice size={10} />
-    </Canvas>
+    <div id="canvas-container">
+      <Canvas>
+        <Suspense>
+          <Physics debug gravity={[0, -9.82 * 20, 0]}>
+            <Camera />
+            <Environment />
+            <Dice size={10} />
+          </Physics>
+        </Suspense>
+      </Canvas>
+    </div>
   );
 };
 
